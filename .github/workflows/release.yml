@@ -55,20 +55,15 @@ jobs:
         run: cargo build --release --all-features
 
       - name: Package crate
-        run: cargo package --allow-dirty
+        run: cargo package
 
       - name: Read crate metadata
         id: crate
         run: |
-          python - <<'PY' >> "$GITHUB_OUTPUT"
-          import tomllib
-          from pathlib import Path
-          cargo_toml = tomllib.loads(Path("Cargo.toml").read_text())
-          package = cargo_toml["package"]
-          print(f"name={package['name']}")
-          print(f"version={package['version']}")
-          print(f"artifact=target/package/{package['name']}-{package['version']}.crate")
-          PY
+          cargo metadata --no-deps --format-version 1 | jq -r '
+            .packages[0]
+            | "name=\(.name)\nversion=\(.version)\nartifact=target/package/\(.name)-\(.version).crate"
+          ' >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
