@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      tauri:
+        patterns:
+          - "tauri"
+          - "tauri-*"
+    open-pull-requests-limit: 10
