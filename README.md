@@ -1,2 +1,3 @@
-# corpora-ui
-Repository for all UI related components and libraries
+# corpora-core-rs
+
+Shared Rust core bindings and official Tauri plugin re-exports for Corpora apps.
